@@ -6,6 +6,7 @@ import me.sahar.todotdd.service.ToDoService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class ToDoServiceTest {
+
     @Autowired
     private ToDoRepository toDoRepository;
 
@@ -35,6 +37,16 @@ public class ToDoServiceTest {
         assertEquals(todoSample.getText(), lastToDo.getText());
         assertEquals(todoSample.isCompleted(), lastToDo.isCompleted());
         assertEquals(todoSample.getId(), lastToDo.getId());
+    }
+
+    @Test
+    void saveAToDo() {
+        ToDoService toDoService = new ToDoService(toDoRepository);
+        ToDo todoSample = new ToDo("Todo Sample 1",true);
+
+        toDoService.save(todoSample);
+
+        assertEquals(1.0, toDoRepository.count());
     }
 
 }
